@@ -18,4 +18,5 @@ class InCase(models.Model):
     name = models.CharField(max_length=100)
     amount = models.DecimalField(max_digits=12, decimal_places=1)
     unit_of_measurement = models.CharField(max_length=50)
-    value = models.DecimalField(max_digits=12, decimal_places=2)
+    value = models.DecimalField(max_digits=11, decimal_places=2)
+    sum_of_value = models.DecimalField(max_digits=13, decimal_places=2)
