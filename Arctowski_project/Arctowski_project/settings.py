@@ -78,7 +78,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'Arctowski_db',
-        'USER': 'root',
+        'USER': 'postgres',
         'PASSWORD': 'coderslab',
         'HOST': 'localhost',
         'PORT': '',
