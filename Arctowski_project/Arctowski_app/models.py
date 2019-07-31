@@ -12,7 +12,7 @@ class Case(models.Model):
     width = models.IntegerField()
     hight = models.IntegerField()
     weight = models.DecimalField(max_digits=2, decimal_places=1)
-    storage_conditions = models.CharField(choices=STORAGE)
+    storage_conditions = models.CharField(max_length = 20, choices=STORAGE)
 
 
 class InCase(models.Model):

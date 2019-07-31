@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import FormView, CreateView, RedirectView
-from .forms import RegistrationForm,CreateCaseForm
+from .forms import RegistrationForm,CreateCaseForm, CreateInCaseForm
 from .models import Case,InCase
 
 
