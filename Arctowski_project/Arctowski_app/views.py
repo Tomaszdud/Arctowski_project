@@ -40,12 +40,33 @@ class LogoutView(RedirectView):
 class CreateCaseView(CreateView):
     model = Case
     form_class = CreateCaseForm
-    template_name = 'blabla.html'
-    success_url = '/case/add/things/'
+    template_name = 'create_case.html'
+    success_url = '/case/add/things'
+    def form_valid(self, form):
+        case = form.save()
+        length = form.cleaned_data['length']
+        width = form.cleaned_data['width']
+        height = form.cleaned_data['height']
+        case.capacity = length*width*height
+        return super().form_valid(form)
 
 
 class CreateInCaseView(CreateView):
     model = InCase
     form_class = CreateInCaseForm
-    template_name = 'blabla1.html'
-    success_url = '/home/'
+    template_name = 'create_case_things.html'
+    success_url = '/login/'
+    def form_valid(self, form):
+        incase = form.save()
+
+        case = Case.objects.get(id=1)
+        actual_sum = case.sum_of_value
+        print(actual_sum)
+        sum_of_val = incase.amount*incase.value
+        print(sum_of_val)
+        Case.sum_of_value = sum_of_val
+
+        return super().form_valid(form)
+
+
+
