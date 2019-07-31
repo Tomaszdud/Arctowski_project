@@ -1,14 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Zarejestruj">
-    </form>
-</body>
-</html>
+{% extends "main.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Rejestracja{% endblock %}
+
+{% block content %}
+<div class="py-5">
+    <div class="container">
+        <div class="row bg-light">
+            <div class="col-md-6">
+                <div class="p-5">
+                    <h1 class="pb-3">Formularz rejestracyjny</h1>
+                    <p>Lorem ipsum dolor sit amet nibh. Donec scelerisque tincidunt. Proin aliquam convallis. Fusce ullamcorper ut, dolor. Aenean interdum mi eget velit. Duis eu odio. In eros pellentesque dapibus sit amet eleifend sollicitudin ligula condimentum urna, placerat nisl auctor euismod. Integer neque at sapien. Aliquam commodo congue. Mauris viverra auctor, egestas.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <form class="p-5" method="post">
+                    <div class="form-group"> {{ form.username|as_crispy_field }}</div>
+                    <div class="form-group">{{ form.password1|as_crispy_field }}</div>
+                    <div class="form-group">{{ form.password2|as_crispy_field }}</div>
+                    <div class="form-group"> {{ form.first_name|as_crispy_field }}</div>
+                    <div class="form-group"> {{ form.last_name|as_crispy_field }}</div>
+                    <button type="submit" class="btn btn-primary">Zarejestruj</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
