@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Case
+from .models import Case, InCase
 
 
 class RegistrationForm(UserCreationForm):
@@ -13,5 +13,11 @@ class RegistrationForm(UserCreationForm):
 class CreateCaseForm(forms.ModelForm):
     class Meta:
         model = Case
+        fields = '__all__'
+
+
+class CreateInCaseForm(forms.ModelForm):
+    class Meta:
+        model = InCase
         fields = '__all__'
 
