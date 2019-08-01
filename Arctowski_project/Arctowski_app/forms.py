@@ -14,6 +14,7 @@ class CreateCaseForm(forms.ModelForm):
     class Meta:
         model = Case
         fields = '__all__'
+        exclude = ['capacity','sum_of_value']
 
 
 class CreateInCaseForm(forms.ModelForm):
