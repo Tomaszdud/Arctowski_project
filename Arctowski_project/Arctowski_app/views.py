@@ -49,3 +49,4 @@ class CreateInCaseView(CreateView):
     form_class = CreateInCaseForm
     template_name = 'blabla1.html'
     success_url = '/home/'
+
