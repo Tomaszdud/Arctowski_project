@@ -42,6 +42,15 @@ class CreateCaseView(CreateView):
     form_class = CreateCaseForm
     template_name = 'create_case.html'
     success_url = '/case/add/things'
+
+    def get_initial(self):
+        initial = super(CreateCaseView, self).get_initial()
+        if self.request.user.is_authenticated:
+            user = self.request.user
+            initial.update({'owner_name': user.username,
+                            'owner':user.id})
+        return initial
+
     def form_valid(self, form):
         case = form.save()
         length = form.cleaned_data['length']
@@ -55,7 +64,8 @@ class CreateInCaseView(CreateView):
     model = InCase
     form_class = CreateInCaseForm
     template_name = 'create_case_things.html'
-    success_url = '/login/'
+    success_url = '/case/add/things'
+
     def form_valid(self, form):
         incase = form.save()
         sum_of_val_thing = incase.value*incase.amount
@@ -64,4 +74,9 @@ class CreateInCaseView(CreateView):
         return super().form_valid(form)
 
 
+class EndCaseView(RedirectView):
+    url = '/miejscedodruku/'
 
+    def get(self, request, *args, **kwargs):
+
+        return super(EndCaseView, self).get(request, *args, **kwargs)

@@ -3,6 +3,7 @@
 {% block title %}Formularz{% endblock %}
 
 {% block content %}
+
 <div class="py-5">
     <div class="container bg-light">
             <form class="p-5" method="post">
@@ -17,6 +18,7 @@
                 </div>
                 {{ form.case|as_crispy_field }}
                 <button type="submit" class="btn btn-primary">Dodaj</button>
+              <a href="/case/end"><button>Zakończ skrzynie</button></a>
             </form>
     </div>
 </div>

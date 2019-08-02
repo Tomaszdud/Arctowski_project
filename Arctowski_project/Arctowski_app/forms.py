@@ -15,6 +15,7 @@ class CreateCaseForm(forms.ModelForm):
         model = Case
         fields = '__all__'
         exclude = ['capacity','sum_of_value']
+        widgets = {'owner': forms.HiddenInput()}
 
 
 class CreateInCaseForm(forms.ModelForm):
