@@ -65,6 +65,7 @@ class CreateInCaseView(CreateView):
     form_class = CreateInCaseForm
     template_name = 'create_case_things.html'
     success_url = '/case/add/things'
+
     def form_valid(self, form):
         incase = form.save()
         sum_of_val_thing = incase.value*incase.amount
@@ -73,4 +74,9 @@ class CreateInCaseView(CreateView):
         return super().form_valid(form)
 
 
+class EndCaseView(RedirectView):
+    url = '/miejscedodruku/'
 
+    def get(self, request, *args, **kwargs):
+
+        return super(EndCaseView, self).get(request, *args, **kwargs)
