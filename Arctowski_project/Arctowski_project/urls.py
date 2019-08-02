@@ -23,7 +23,7 @@ urlpatterns = [
     path('registration/', RegistrationView.as_view()),
     path('login/', LoginView.as_view()),
     path('logout/', LogoutView.as_view()),
-    path('case/add', CreateCaseView.as_view()),
-    path('case/add/things', CreateInCaseView.as_view()),
+    path('case/add/', CreateCaseView.as_view()),
+    path('case/add/things/', CreateInCaseView.as_view()),
 
 ]

@@ -42,6 +42,15 @@ class CreateCaseView(CreateView):
     form_class = CreateCaseForm
     template_name = 'create_case.html'
     success_url = '/case/add/things'
+
+    def get_initial(self):
+        initial = super(CreateCaseView, self).get_initial()
+        if self.request.user.is_authenticated:
+            user = self.request.user
+            initial.update({'owner_name': user.username,
+                            'owner':user.id})
+        return initial
+
     def form_valid(self, form):
         case = form.save()
         length = form.cleaned_data['length']

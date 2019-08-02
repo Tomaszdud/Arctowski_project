@@ -6,6 +6,7 @@ STORAGE = (())
 
 class Case(models.Model):
     case_id = models.CharField(max_length=20)
+    owner_name = models.CharField(max_length=60, null=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     type = models.CharField(max_length=50)
     length = models.IntegerField()
@@ -61,4 +62,3 @@ class Sekcja(models.Model):
 class Wpis(models.Model):
     tytul = models.CharField(max_length=128)
     sekcja = models.ForeignKey(Sekcja,related_name='wpisy', on_delete=models.CASCADE)
-
