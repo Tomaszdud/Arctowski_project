@@ -33,7 +33,7 @@ class Raport(models.Model):
     miesiac = models.CharField(max_length=30)
 
     def get_as_html(self):
-        buffer = '''<h1>Raport za {} {}</h1>'''.format(self.rok,self.miesiac)
+        buffer = '''<h1>Raport za {} {}</h1>'''.format(self.rok, self.miesiac)
 
         for sekcja in self.sekcje.filter(sekcjaNadzedna=None):
             buffer += sekcja.get_as_html(1)
@@ -54,6 +54,7 @@ class Sekcja(models.Model):
         for podSekcja in self.podSekcje.all():
 
             buffer += podSekcja.get_as_html(level+1)
+
         return buffer + '<div class="opis_koniec level_{}">{}</div>'.format(level,self.tekst_koniec)
 
 
