@@ -14,7 +14,7 @@ class Case(models.Model):
     weight = models.DecimalField(max_digits=11, decimal_places=1)
     storage_conditions = models.CharField(max_length = 20, choices=STORAGE)
     capacity = models.DecimalField(max_digits=12, decimal_places=2, null=True)
-    sum_of_value = models.DecimalField(max_digits=13, decimal_places=2, null=True)
+    sum_of_value = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
 
     def __str__(self):
         return self.case_id
@@ -38,6 +38,7 @@ class Raport(models.Model):
         for sekcja in self.sekcje.filter(sekcjaNadzedna=None):
             buffer += sekcja.get_as_html(1)
         return buffer
+
 
 class Sekcja(models.Model):
     tytul = models.CharField(max_length=128)

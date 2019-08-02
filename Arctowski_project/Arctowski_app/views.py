@@ -58,14 +58,9 @@ class CreateInCaseView(CreateView):
     success_url = '/login/'
     def form_valid(self, form):
         incase = form.save()
-
-        case = Case.objects.get(id=1)
-        actual_sum = case.sum_of_value
-        print(actual_sum)
-        sum_of_val = incase.amount*incase.value
-        print(sum_of_val)
-        Case.sum_of_value = sum_of_val
-
+        sum_of_val_thing = incase.value*incase.amount
+        incase.case.sum_of_value += sum_of_val_thing
+        incase.case.save()
         return super().form_valid(form)
 
 
