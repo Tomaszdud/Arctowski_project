@@ -38,6 +38,7 @@ def about_case(apps, schema_editor):
     Case.objects.create(
         case_id="JK-SK-1",
         owner=MyUser.objects.get(pk=1),
+        owner_name="Jan Kowalski",
         type="Skrzynia aluminiowa",
         length="80",
         width="60",
@@ -51,6 +52,7 @@ def about_case(apps, schema_editor):
     Case.objects.create(
         case_id="AN-SK-2",
         owner=MyUser.objects.get(pk=2),
+        owner_name="Anna Nowak",
         type="Skrzynia aluminiowa",
         length="90",
         width="50",
