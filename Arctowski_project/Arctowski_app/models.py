@@ -1,12 +1,22 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,AbstractUser
 
-STORAGE = (())
+STORAGE = (('pokład','pokład'),
+           ('ładownia','ładownia'),
+            ('kabina','kabina'),
+            ('+4','+4'),
+            ('-20','-20'),
+            ('-80','-80'),
+           )
+
+class MyUser(AbstractUser):
+    class Meta(AbstractUser.Meta):
+        swappable = 'AUTH_USER_MODEL'
 
 
 class Case(models.Model):
     case_id = models.CharField(max_length=20)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     type = models.CharField(max_length=50)
     length = models.IntegerField()
     width = models.IntegerField()
