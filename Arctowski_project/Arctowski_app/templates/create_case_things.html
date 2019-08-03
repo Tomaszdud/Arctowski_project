@@ -1,8 +1,25 @@
-{% extends 'main.html' %}
+{% extends "main.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Formularz{% endblock %}
+
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="gotowe">
-    </form>
+
+<div class="py-5">
+    <div class="container bg-light">
+            <form class="p-5" method="post">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-6 mb-0"> {{ form.name|as_crispy_field }}</div>
+                    <div class="form-group col-md-6 mb-0">{{ form.amount|as_crispy_field }}</div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6 mb-0"> {{ form.unit_of_measurement|as_crispy_field }}</div>
+                    <div class="form-group col-md-6 mb-0">{{ form.value|as_crispy_field }}</div>
+                </div>
+                {{ form.case|as_crispy_field }}
+                <button type="submit" class="btn btn-primary">Dodaj</button>
+              <a href="/case/end"><button>Zakończ skrzynie</button></a>
+            </form>
+    </div>
+</div>
 {% endblock %}
