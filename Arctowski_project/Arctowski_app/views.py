@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.forms import AuthenticationForm
-from django.views.generic import FormView, CreateView, RedirectView
+from django.views.generic import FormView, CreateView, RedirectView, View, DetailView
 from .forms import RegistrationForm,CreateCaseForm, CreateInCaseForm
 from .models import Case,InCase
 
@@ -73,11 +73,11 @@ class CreateInCaseView(CreateView):
         incase.case.save()
         return super().form_valid(form)
 
+class EndCaseView(View):
 
-class EndCaseView(RedirectView):
-    url = '/miejscedodruku/'
-
-    def get(self, request, *args, **kwargs):
-
-        return super(EndCaseView, self).get(request, *args, **kwargs)
-
+    def post(self,request):
+        form = CreateInCaseForm(request.POST)
+        form.save()
+        case = Case.objects.get(pk=request.POST['case'])
+        ctx = {"case":case}
+        return render(request,'case_end.html',ctx)
