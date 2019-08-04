@@ -78,5 +78,6 @@ class EndCaseView(RedirectView):
     url = '/miejscedodruku/'
 
     def get(self, request, *args, **kwargs):
+
         return super(EndCaseView, self).get(request, *args, **kwargs)
 

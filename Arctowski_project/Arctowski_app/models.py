@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User,AbstractUser
+from django.contrib.auth.models import AbstractUser
+
 
 STORAGE = (('pokład','pokład'),
            ('ładownia','ładownia'),
@@ -8,6 +9,7 @@ STORAGE = (('pokład','pokład'),
             ('-20','-20'),
             ('-80','-80'),
            )
+
 
 class MyUser(AbstractUser):
     class Meta(AbstractUser.Meta):
