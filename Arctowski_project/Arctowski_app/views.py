@@ -76,8 +76,19 @@ class CreateInCaseView(CreateView):
 class EndCaseView(View):
 
     def post(self,request):
-        form = CreateInCaseForm(request.POST)
-        form.save()
-        case = Case.objects.get(pk=request.POST['case'])
-        ctx = {"case":case}
-        return render(request,'case_end.html',ctx)
+        for k,y in request.POST.items():
+            if k == 'csrfmiddlewaretoken':
+                continue
+            else:
+                if request.POST[k] is '':
+                    case1 = Case.objects.filter(owner=self.request.user.id).order_by('-pk')[0]
+                    ctx = {"case": case1}
+                    return render(request, 'case_end.html', ctx)
+                else:
+                    form = CreateInCaseForm(request.POST)
+                    form.save()
+                    case = Case.objects.get(pk=request.POST['case'])
+                    ctx = {"case": case}
+                    return render(request, 'case_end.html', ctx)
+
+
