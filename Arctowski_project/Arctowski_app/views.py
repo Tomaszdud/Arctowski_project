@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.forms import AuthenticationForm
-from django.views.generic import FormView, CreateView, RedirectView, View, DetailView
+from django.views.generic import FormView, CreateView, RedirectView, View, DetailView, ListView
 from .forms import RegistrationForm,CreateCaseForm, CreateInCaseForm
 from .models import Case,InCase
 
@@ -36,6 +36,12 @@ class LogoutView(RedirectView):
         logout(request)
         return super(LogoutView, self).get(request, *args, **kwargs)
 
+
+class CaseListView(ListView):
+    template_name = 'case_list.html'
+    def get_queryset(self):
+        queryset = Case.objects.filter(owner=self.request.user.id)
+        return queryset
 
 class CreateCaseView(CreateView):
     model = Case
