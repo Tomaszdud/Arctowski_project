@@ -1,0 +1,6 @@
+{% extends 'main.html' %}
+{% block content %}
+    {% for case in object_list %}
+        <li>{{ case.case_id }}</li>
+    {% endfor %}
+{% endblock %}

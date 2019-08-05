@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.forms import AuthenticationForm
-from django.views.generic import FormView, CreateView, RedirectView, View, DetailView
+from django.views.generic import FormView, CreateView, RedirectView, View, DetailView, ListView
 from .forms import RegistrationForm,CreateCaseForm, CreateInCaseForm
 from .models import Case,InCase
 
@@ -36,6 +36,12 @@ class LogoutView(RedirectView):
         logout(request)
         return super(LogoutView, self).get(request, *args, **kwargs)
 
+
+class CaseListView(ListView):
+    template_name = 'case_list.html'
+    def get_queryset(self):
+        queryset = Case.objects.filter(owner=self.request.user.id)
+        return queryset
 
 class CreateCaseView(CreateView):
     model = Case
@@ -76,8 +82,19 @@ class CreateInCaseView(CreateView):
 class EndCaseView(View):
 
     def post(self,request):
-        form = CreateInCaseForm(request.POST)
-        form.save()
-        case = Case.objects.get(pk=request.POST['case'])
-        ctx = {"case":case}
-        return render(request,'case_end.html',ctx)
+        for k,y in request.POST.items():
+            if k == 'csrfmiddlewaretoken':
+                continue
+            else:
+                if request.POST[k] is '':
+                    case1 = Case.objects.filter(owner=self.request.user.id).order_by('-pk')[0]
+                    ctx = {"case": case1}
+                    return render(request, 'case_end.html', ctx)
+                else:
+                    form = CreateInCaseForm(request.POST)
+                    form.save()
+                    case = Case.objects.get(pk=request.POST['case'])
+                    ctx = {"case": case}
+                    return render(request, 'case_end.html', ctx)
+
+
