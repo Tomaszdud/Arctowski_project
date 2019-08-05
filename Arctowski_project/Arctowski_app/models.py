@@ -74,3 +74,13 @@ class Sekcja(models.Model):
 class Wpis(models.Model):
     tytul = models.CharField(max_length=128)
     sekcja = models.ForeignKey(Sekcja,related_name='wpisy', on_delete=models.CASCADE)
+
+
+class Photo(models.Model):
+
+    def fileLocation(self, instance, filename):
+        return 'static/media/cases/{0}/{1}'.format(instance.photo_case.case_id, os.path.basename(filename))
+
+    image = models.ImageField(upload_to=fileLocation ,null=True)
+    scan = models.FileField(upload_to=fileLocation ,null=True)
+    photo_case = models.ForeignKey(Case, on_delete=models.DO_NOTHING)

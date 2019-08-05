@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import static
+from django.conf import settings
 from Arctowski_app.views import (RegistrationView, LoginView, LogoutView, CreateCaseView\
                                  , CreateInCaseView, EndCaseView,CaseListView, CaseEditView)
 
@@ -29,4 +31,4 @@ urlpatterns = [
     path('case/list', CaseListView.as_view()),
     path('case/edit/<int:pk>', CaseEditView.as_view(),name='case_edit'),
 
-]
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
