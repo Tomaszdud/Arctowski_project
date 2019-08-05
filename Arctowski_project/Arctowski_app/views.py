@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.forms import AuthenticationForm
-from django.views.generic import FormView, CreateView, RedirectView, View, DetailView, ListView
-from .forms import RegistrationForm,CreateCaseForm, CreateInCaseForm
+from django.views.generic import (FormView, CreateView, RedirectView, View, DetailView, ListView, UpdateView)
+from .forms import RegistrationForm,CreateCaseForm, CreateInCaseForm, CaseEditForm
 from .models import Case,InCase
 
 
@@ -97,4 +97,23 @@ class EndCaseView(View):
                     ctx = {"case": case}
                     return render(request, 'case_end.html', ctx)
 
+
+class CaseEditView(UpdateView):
+    template_name = 'case_edit.html'
+    form_class = CaseEditForm
+    model = Case
+    success_url = '/case/list'
+
+    def get_initial(self):
+        initial = super(CaseEditView, self).get_initial()
+        initial['capacity'] = 0.00
+        return initial
+
+    def form_valid(self, form):
+        case = form.save()
+        length = form.cleaned_data['length']
+        width = form.cleaned_data['width']
+        height = form.cleaned_data['height']
+        case.capacity = length*width*height/1000000
+        return super(CaseEditView,self).form_valid(form)
 

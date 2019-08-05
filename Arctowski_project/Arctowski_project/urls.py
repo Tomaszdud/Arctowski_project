@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from Arctowski_app.views import (RegistrationView, LoginView, LogoutView, CreateCaseView\
-                                 , CreateInCaseView, EndCaseView,CaseListView)
+                                 , CreateInCaseView, EndCaseView,CaseListView, CaseEditView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,5 +27,6 @@ urlpatterns = [
     path('case/add/things/', CreateInCaseView.as_view()),
     path('case/end', EndCaseView.as_view()),
     path('case/list', CaseListView.as_view()),
+    path('case/edit/<int:pk>', CaseEditView.as_view(),name='case_edit'),
 
 ]

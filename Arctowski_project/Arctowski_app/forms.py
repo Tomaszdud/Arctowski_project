@@ -23,3 +23,9 @@ class CreateInCaseForm(forms.ModelForm):
         model = InCase
         fields = '__all__'
 
+
+class CaseEditForm(forms.ModelForm):
+    class Meta:
+        model = Case
+        fields = ['type','length','height','width','weight','storage_conditions','capacity']
+        widgets = {'capacity':forms.HiddenInput}
