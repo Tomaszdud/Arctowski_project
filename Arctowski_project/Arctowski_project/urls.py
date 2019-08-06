@@ -18,7 +18,7 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
 from Arctowski_app.views import (RegistrationView, LoginView, LogoutView, CreateCaseView\
-                                 , CreateInCaseView, EndCaseView,CaseListView, CaseEditView)
+                                 , CreateInCaseView, EndCaseView,CaseListView, CaseEditView, EndCasePhoto)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,5 +30,6 @@ urlpatterns = [
     path('case/end', EndCaseView.as_view()),
     path('case/list', CaseListView.as_view()),
     path('case/edit/<int:pk>', CaseEditView.as_view(),name='case_edit'),
+    path('case/end/<int:pk>', EndCasePhoto.as_view(), name='end_case'),
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

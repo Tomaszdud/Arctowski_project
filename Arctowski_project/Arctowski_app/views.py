@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
+from django.urls import reverse_lazy
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import (FormView, CreateView, RedirectView, View, DetailView, ListView, UpdateView)
-from .forms import RegistrationForm,CreateCaseForm, CreateInCaseForm, CaseEditForm
-from .models import Case,InCase
+from .forms import RegistrationForm,CreateCaseForm, CreateInCaseForm, CaseEditForm, AddPhotoForm
+from .models import Case,InCase, Photo
 
 
 class RegistrationView(FormView):
@@ -79,6 +80,35 @@ class CreateInCaseView(CreateView):
         incase.case.save()
         return super().form_valid(form)
 
+
+class EndCasePhoto(CreateView):
+    model = Photo
+    form_class = AddPhotoForm
+    template_name = 'case_end.html'
+
+    def get_success_url(self):
+        return reverse_lazy('end_case', kwargs = {'pk':self.kwargs['pk']})
+
+    def get_initial(self):
+        initial = super(EndCasePhoto, self).get_initial()
+        case = Case.objects.filter(owner=self.request.user.id).order_by('-pk')[0]
+        initial.update({'photo_case':case.id})
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        obj = Case.objects.filter(owner=self.request.user.id).order_by('-pk')[0]
+        context['case'] = obj
+        return context
+
+    def form_valid(self, form):
+        if form.cleaned_data['image'] is None or form.cleaned_data['scan'] is None:
+            return super(EndCasePhoto, self).form_valid(form)
+        else:
+            print('lala')
+            form.save()
+        return super(EndCasePhoto,self).form_valid(form)
+
 class EndCaseView(View):
 
     def post(self,request):
@@ -89,13 +119,13 @@ class EndCaseView(View):
                 if request.POST[k] is '':
                     case1 = Case.objects.filter(owner=self.request.user.id).order_by('-pk')[0]
                     ctx = {"case": case1}
-                    return render(request, 'case_end.html', ctx)
+                    return redirect('end_case', pk=case1.pk)
                 else:
                     form = CreateInCaseForm(request.POST)
                     form.save()
                     case = Case.objects.get(pk=request.POST['case'])
                     ctx = {"case": case}
-                    return render(request, 'case_end.html', ctx)
+                    return redirect('end_case', pk=case.pk)
 
 
 class CaseEditView(UpdateView):
