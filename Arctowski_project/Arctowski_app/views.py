@@ -102,8 +102,8 @@ class EndCasePhoto(CreateView):
         return context
 
     def form_valid(self, form):
-        if form.cleaned_data['image'] is None or form.cleaned_data['scan'] is None:
-            return super(EndCasePhoto, self).form_valid(form)
+        if form.cleaned_data['image'] is None and form.cleaned_data['scan'] is None:
+            return redirect(self.get_success_url())
         else:
             print('lala')
             form.save()
