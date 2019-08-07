@@ -7,7 +7,6 @@ def about_user(apps, schema_editor):
     MyUser = apps.get_model('Arctowski_app', 'MyUser')
 
     MyUser.objects.create(
-        id="1",
         password='pbkdf2_sha256$150000$F3ltTNxwOma1$Giy3M84wv+f7veQOVbHswahwYDEF867+UqzlDjdo8x0=',
         is_superuser=False,
         username="JanKowalski1",
@@ -20,7 +19,6 @@ def about_user(apps, schema_editor):
     )
 
     MyUser.objects.create(
-        id="2",
         password="pbkdf2_sha256$150000$ezPAG5nAOG49$ZoawKd4rnLIkEDJwpiGr5AWqXxnTN5ysrGpfGNx6vck=",
         is_superuser=False,
         username="AnnaNowak1",
@@ -33,7 +31,6 @@ def about_user(apps, schema_editor):
     )
 
     MyUser.objects.create(
-        id="3",
         password="pbkdf2_sha256$150000$AHtBrdagDao7$8W0O5Y9kCEBtaqw53AYIDTnxzFSKnvqTfddk9WMoLRY=",
         is_superuser=True,
         username="admin",

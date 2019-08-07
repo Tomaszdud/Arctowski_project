@@ -1,9 +1,13 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.forms import AuthenticationForm
-from django.views.generic import FormView, CreateView, RedirectView
-from .forms import RegistrationForm,CreateCaseForm, CreateInCaseForm
-from .models import Case,InCase
+from django.contrib.auth import authenticate, login, logout, password_validation
+from django.contrib.auth.forms import AuthenticationForm, SetPasswordForm
+from django.views.generic import FormView, CreateView, RedirectView, UpdateView,TemplateView
+from jedi.evaluate.context import instance
+
+from .forms import RegistrationForm,CreateCaseForm, CreateInCaseForm, ResetPass
+from .models import Case,InCase, MyUser
+from django.contrib.auth.hashers import make_password
+from django.utils.translation import gettext, gettext_lazy as _
 
 
 class RegistrationView(FormView):
@@ -79,4 +83,35 @@ class EndCaseView(RedirectView):
 
     def get(self, request, *args, **kwargs):
         return super(EndCaseView, self).get(request, *args, **kwargs)
+
+
+def add_error(param, error):
+    pass
+
+
+class Reset(FormView):
+    form_class = ResetPass
+    template_name = 'reset_password.html'
+    success_url = '/home'
+    def form_valid(self, form):
+        error_messages = {
+            'password_mismatch': _("The two password fields didn't match."),
+        }
+        user = MyUser.objects.get(username=form.cleaned_data['username'])
+        password1 = form.cleaned_data.get("password1")
+        password2 = form.cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            raise Exception(
+                error_messages['password_mismatch']
+            )
+
+
+        user.password = make_password(form.cleaned_data['password1'])
+        user.save()
+        return super(Reset,self).form_valid(form)
+
+
+
+
+
 
