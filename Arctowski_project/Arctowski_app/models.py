@@ -78,9 +78,9 @@ class Wpis(models.Model):
 
 class Photo(models.Model):
 
-    def fileLocation(self, instance, filename):
-        return 'cases/{0}/{1}'.format(instance.photo_case.case_id, os.path.basename(filename))
+    def group_based_upload_to(instance, filename):
+        return "cases/{}/{}".format(instance.photo_case.case_id, filename)
 
-    image = models.ImageField(upload_to='lala', null=True, blank=True)
-    scan = models.FileField(upload_to='lolo', null=True, blank=True)
+    image = models.ImageField(upload_to=group_based_upload_to, null=True, blank=True)
+    scan = models.FileField(upload_to=group_based_upload_to, null=True, blank=True)
     photo_case = models.ForeignKey(Case, on_delete=models.DO_NOTHING)
