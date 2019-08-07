@@ -1,10 +1,15 @@
+from django.contrib.auth import authenticate, login, logout, password_validation
+from django.contrib.auth.forms import AuthenticationForm, SetPasswordForm
+from jedi.evaluate.context import instance
+from .forms import RegistrationForm,CreateCaseForm, CreateInCaseForm, ResetPass, CaseEditForm, AddPhotoForm
+from .models import Case,InCase, MyUser, Photo
+from django.contrib.auth.hashers import make_password
+from django.utils.translation import gettext, gettext_lazy as _
 from django.shortcuts import render,redirect
 from django.urls import reverse_lazy
-from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.forms import AuthenticationForm
-from django.views.generic import (FormView, CreateView, RedirectView, View, DetailView, ListView, UpdateView)
-from .forms import RegistrationForm,CreateCaseForm, CreateInCaseForm, CaseEditForm, AddPhotoForm
-from .models import Case,InCase, Photo
+from django.views.generic import (FormView, CreateView, RedirectView, View, DetailView, ListView, UpdateView, TemplateView)
+
+
 
 
 class RegistrationView(FormView):
@@ -146,4 +151,35 @@ class CaseEditView(UpdateView):
         height = form.cleaned_data['height']
         case.capacity = length*width*height/1000000
         return super(CaseEditView,self).form_valid(form)
+
+
+def add_error(param, error):
+    pass
+
+
+class Reset(FormView):
+    form_class = ResetPass
+    template_name = 'reset_password.html'
+    success_url = '/home'
+    def form_valid(self, form):
+        error_messages = {
+            'password_mismatch': _("The two password fields didn't match."),
+        }
+        user = MyUser.objects.get(username=form.cleaned_data['username'])
+        password1 = form.cleaned_data.get("password1")
+        password2 = form.cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            raise Exception(
+                error_messages['password_mismatch']
+            )
+
+
+        user.password = make_password(form.cleaned_data['password1'])
+        user.save()
+        return super(Reset,self).form_valid(form)
+
+
+
+
+
 

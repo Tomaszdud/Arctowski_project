@@ -14,11 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+#from Arctowski_app.admin import admin_site
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
 from Arctowski_app.views import (RegistrationView, LoginView, LogoutView, CreateCaseView\
-                                 , CreateInCaseView, EndCaseView,CaseListView, CaseEditView, EndCasePhoto)
+                                 , CreateInCaseView, EndCaseView,CaseListView, CaseEditView, EndCasePhoto, Reset)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,8 +31,14 @@ urlpatterns = [
     path('case/add/', CreateCaseView.as_view()),
     path('case/add/things/', CreateInCaseView.as_view()),
     path('case/end', EndCaseView.as_view()),
+    path('admin/password_reset/',auth_views.PasswordResetView.as_view(),name='admin_password_reset'),
+    path('admin/password_reset/done/',auth_views.PasswordResetDoneView.as_view(),name='password_reset_done'),
+    path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(),name='password_reset_confirm'),
+    path('reset/done/',auth_views.PasswordResetCompleteView.as_view(),name='password_reset_complete'),
+    path('reset/password', Reset.as_view()),
     path('case/list', CaseListView.as_view()),
     path('case/edit/<int:pk>', CaseEditView.as_view(),name='case_edit'),
     path('case/end/<int:pk>', EndCasePhoto.as_view(), name='end_case'),
+
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
