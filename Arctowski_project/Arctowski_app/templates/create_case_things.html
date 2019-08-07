@@ -7,7 +7,6 @@
 <div class="py-5">
     <div class="container bg-light">
             <form class="p-5" method="post">
-                {% csrf_token %}
                 <div class="form-row">
                     <div class="form-group col-md-6 mb-0"> {{ form.name|as_crispy_field }}</div>
                     <div class="form-group col-md-6 mb-0">{{ form.amount|as_crispy_field }}</div>
@@ -18,7 +17,8 @@
                 </div>
                 {{ form.case|as_crispy_field }}
                 <button type="submit" class="btn btn-primary">Dodaj</button>
-              <a href="/case/end"><button>Zakończ skrzynie</button></a>
+              <button type="submit" formaction="/case/end">Zakończ skrzynie</button>
+                {% csrf_token %}
             </form>
     </div>
 </div>

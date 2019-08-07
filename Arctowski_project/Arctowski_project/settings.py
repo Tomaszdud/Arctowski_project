@@ -77,11 +77,11 @@ WSGI_APPLICATION = 'Arctowski_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'Arctowski_db',
-        'USER': 'postgres',
-        'PASSWORD': 'coderslab',
-        'HOST': 'localhost',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'USER': 'postgres',
+        # 'PASSWORD': 'coderslab',
+        # 'HOST': 'localhost',
 
     }
 }
@@ -128,3 +128,7 @@ STATIC_URL = '/static/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 AUTH_USER_MODEL = "Arctowski_app.MyUser"
+
+MEDIA_ROOT = 'media/'
+
+MEDIA_URL = '/media/'

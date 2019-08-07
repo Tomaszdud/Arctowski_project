@@ -1,30 +1,34 @@
 from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, SetPasswordForm, UsernameField
 from django import forms
-from .models import Case, InCase, MyUser
+from .models import Case, InCase, MyUser, Photo
 from django.contrib.auth import authenticate,password_validation,get_user_model
 from django.utils.translation import gettext, gettext_lazy as _
 
 UserModel = get_user_model()
 
 
+
 class RegistrationForm(UserCreationForm):
     class Meta:
         model = MyUser
-        fields = ['username', 'password1', 'password2', 'first_name', 'last_name']
+        fields = ['username','password1','password2','first_name','last_name']
+
 
 
 class CreateCaseForm(forms.ModelForm):
     class Meta:
         model = Case
         fields = '__all__'
-        exclude = ['capacity', 'sum_of_value']
-        widgets = {'owner': forms.HiddenInput()}
+        exclude = ['capacity','sum_of_value']
+        widgets = {'owner_name': forms.HiddenInput(),'owner': forms.HiddenInput()}
+
 
 
 class CreateInCaseForm(forms.ModelForm):
     class Meta:
         model = InCase
         fields = '__all__'
+
 
 
 class ResetPass(forms.Form):
@@ -47,3 +51,15 @@ class ResetPass(forms.Form):
     )
 
 
+class CaseEditForm(forms.ModelForm):
+    class Meta:
+        model = Case
+        fields = ['type','length','height','width','weight','storage_conditions','capacity']
+        widgets = {'capacity':forms.HiddenInput}
+
+
+class AddPhotoForm(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = '__all__'
+        widgets = {'photo_case':forms.HiddenInput}

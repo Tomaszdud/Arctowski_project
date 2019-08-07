@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth import get_user_model
 
+
 STORAGE = (('pokład','pokład'),
            ('ładownia','ładownia'),
             ('kabina','kabina'),
@@ -9,6 +10,7 @@ STORAGE = (('pokład','pokład'),
             ('-20','-20'),
             ('-80','-80'),
            )
+
 
 class MyUser(AbstractUser):
     class Meta(AbstractUser.Meta):
@@ -18,7 +20,7 @@ class MyUser(AbstractUser):
 class Case(models.Model):
     case_id = models.CharField(max_length=20)
     owner = models.ForeignKey(MyUser, on_delete=models.CASCADE)
-    owner_name = models.CharField(max_length=60, null=True)
+    owner_name = models.CharField(max_length=60)
     type = models.CharField(max_length=50)
     length = models.IntegerField()
     width = models.IntegerField()
@@ -33,11 +35,11 @@ class Case(models.Model):
 
 
 class InCase(models.Model):
-    name = models.CharField(max_length=100)
-    amount = models.DecimalField(max_digits=12, decimal_places=1)
-    unit_of_measurement = models.CharField(max_length=50)
-    value = models.DecimalField(max_digits=11, decimal_places=2)
-    case = models.ForeignKey(Case, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100,null=True, blank=True)
+    amount = models.DecimalField(max_digits=12, decimal_places=1, null=True,blank=True)
+    unit_of_measurement = models.CharField(max_length=50,null=True, blank=True)
+    value = models.DecimalField(max_digits=11, decimal_places=2, null=True, blank=True)
+    case = models.ForeignKey(Case, on_delete=models.CASCADE, null=True, blank=True)
 
 
 class Raport(models.Model):
@@ -73,3 +75,13 @@ class Sekcja(models.Model):
 class Wpis(models.Model):
     tytul = models.CharField(max_length=128)
     sekcja = models.ForeignKey(Sekcja,related_name='wpisy', on_delete=models.CASCADE)
+
+
+class Photo(models.Model):
+
+    def group_based_upload_to(instance, filename):
+        return "cases/{}/{}".format(instance.photo_case.case_id, filename)
+
+    image = models.ImageField(upload_to=group_based_upload_to, null=True, blank=True)
+    scan = models.FileField(upload_to=group_based_upload_to, null=True, blank=True)
+    photo_case = models.ForeignKey(Case, on_delete=models.DO_NOTHING)

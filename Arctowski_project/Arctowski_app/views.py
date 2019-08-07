@@ -1,13 +1,15 @@
-from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout, password_validation
 from django.contrib.auth.forms import AuthenticationForm, SetPasswordForm
-from django.views.generic import FormView, CreateView, RedirectView, UpdateView,TemplateView
 from jedi.evaluate.context import instance
-
-from .forms import RegistrationForm,CreateCaseForm, CreateInCaseForm, ResetPass
-from .models import Case,InCase, MyUser
+from .forms import RegistrationForm,CreateCaseForm, CreateInCaseForm, ResetPass, CaseEditForm, AddPhotoForm
+from .models import Case,InCase, MyUser, Photo
 from django.contrib.auth.hashers import make_password
 from django.utils.translation import gettext, gettext_lazy as _
+from django.shortcuts import render,redirect
+from django.urls import reverse_lazy
+from django.views.generic import (FormView, CreateView, RedirectView, View, DetailView, ListView, UpdateView, TemplateView)
+
+
 
 
 class RegistrationView(FormView):
@@ -40,6 +42,12 @@ class LogoutView(RedirectView):
         logout(request)
         return super(LogoutView, self).get(request, *args, **kwargs)
 
+
+class CaseListView(ListView):
+    template_name = 'case_list.html'
+    def get_queryset(self):
+        queryset = Case.objects.filter(owner=self.request.user.id)
+        return queryset
 
 class CreateCaseView(CreateView):
     model = Case
@@ -78,11 +86,71 @@ class CreateInCaseView(CreateView):
         return super().form_valid(form)
 
 
-class EndCaseView(RedirectView):
-    url = '/miejscedodruku/'
+class EndCasePhoto(CreateView):
+    model = Photo
+    form_class = AddPhotoForm
+    template_name = 'case_end.html'
 
-    def get(self, request, *args, **kwargs):
-        return super(EndCaseView, self).get(request, *args, **kwargs)
+    def get_success_url(self):
+        return reverse_lazy('end_case', kwargs = {'pk':self.kwargs['pk']})
+
+    def get_initial(self):
+        initial = super(EndCasePhoto, self).get_initial()
+        case = Case.objects.filter(owner=self.request.user.id).order_by('-pk')[0]
+        initial.update({'photo_case':case.id})
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        obj = Case.objects.filter(owner=self.request.user.id).order_by('-pk')[0]
+        context['case'] = obj
+        return context
+
+    def form_valid(self, form):
+        if form.cleaned_data['image'] is None and form.cleaned_data['scan'] is None:
+            return redirect(self.get_success_url())
+        else:
+            print('lala')
+            form.save()
+        return super(EndCasePhoto,self).form_valid(form)
+
+class EndCaseView(View):
+
+    def post(self,request):
+        for k,y in request.POST.items():
+            if k == 'csrfmiddlewaretoken':
+                continue
+            else:
+                if request.POST[k] is '':
+                    case1 = Case.objects.filter(owner=self.request.user.id).order_by('-pk')[0]
+                    ctx = {"case": case1}
+                    return redirect('end_case', pk=case1.pk)
+                else:
+                    form = CreateInCaseForm(request.POST)
+                    form.save()
+                    case = Case.objects.get(pk=request.POST['case'])
+                    ctx = {"case": case}
+                    return redirect('end_case', pk=case.pk)
+
+
+class CaseEditView(UpdateView):
+    template_name = 'case_edit.html'
+    form_class = CaseEditForm
+    model = Case
+    success_url = '/case/list'
+
+    def get_initial(self):
+        initial = super(CaseEditView, self).get_initial()
+        initial['capacity'] = 0.00
+        return initial
+
+    def form_valid(self, form):
+        case = form.save()
+        length = form.cleaned_data['length']
+        width = form.cleaned_data['width']
+        height = form.cleaned_data['height']
+        case.capacity = length*width*height/1000000
+        return super(CaseEditView,self).form_valid(form)
 
 
 def add_error(param, error):
