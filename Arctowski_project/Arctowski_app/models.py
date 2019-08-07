@@ -74,3 +74,13 @@ class Sekcja(models.Model):
 class Wpis(models.Model):
     tytul = models.CharField(max_length=128)
     sekcja = models.ForeignKey(Sekcja,related_name='wpisy', on_delete=models.CASCADE)
+
+
+class Photo(models.Model):
+
+    def group_based_upload_to(instance, filename):
+        return "cases/{}/{}".format(instance.photo_case.case_id, filename)
+
+    image = models.ImageField(upload_to=group_based_upload_to, null=True, blank=True)
+    scan = models.FileField(upload_to=group_based_upload_to, null=True, blank=True)
+    photo_case = models.ForeignKey(Case, on_delete=models.DO_NOTHING)

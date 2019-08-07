@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Case, InCase, MyUser
+from .models import Case, InCase, MyUser, Photo
 
 
 class RegistrationForm(UserCreationForm):
@@ -23,3 +23,16 @@ class CreateInCaseForm(forms.ModelForm):
         model = InCase
         fields = '__all__'
 
+
+class CaseEditForm(forms.ModelForm):
+    class Meta:
+        model = Case
+        fields = ['type','length','height','width','weight','storage_conditions','capacity']
+        widgets = {'capacity':forms.HiddenInput}
+
+
+class AddPhotoForm(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = '__all__'
+        widgets = {'photo_case':forms.HiddenInput}
