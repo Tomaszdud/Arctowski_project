@@ -15,7 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from Arctowski_app.views import (RegistrationView, LoginView, LogoutView, CreateCaseView\
+                                 , CreateInCaseView, EndCaseView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('registration/', RegistrationView.as_view()),
+    path('login/', LoginView.as_view()),
+    path('logout/', LogoutView.as_view()),
+    path('case/add/', CreateCaseView.as_view()),
+    path('case/add/things/', CreateInCaseView.as_view()),
+    path('case/end', EndCaseView.as_view()),
+
 ]
