@@ -143,7 +143,7 @@ class CaseEditView(LoginRequiredMixin, UpdateView):
     template_name = 'case_edit.html'
     form_class = CaseEditForm
     model = Case
-    success_url = '/case/list'
+    success_url = '/case'
 
     def get_initial(self):
         initial = super(CaseEditView, self).get_initial()
@@ -168,7 +168,6 @@ class IncaseEditView(LoginRequiredMixin, UpdateView):
     template_name = 'incase_edit.html'
     form_class = IncaseEditForm
     model = InCase
-    success_url = reverse_lazy('case')
 
     def get_initial(self):
         initial = super(IncaseEditView, self).get_initial()
@@ -178,6 +177,9 @@ class IncaseEditView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         form.save()
         return super(IncaseEditView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('case_edit', kwargs = {'pk_1': self.kwargs['pk_1']})
 
 class Reset(FormView):
     form_class = ResetPass

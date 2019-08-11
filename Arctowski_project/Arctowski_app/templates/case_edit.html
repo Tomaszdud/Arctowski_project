@@ -5,9 +5,24 @@
 {% block content %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-6 py-5">
-                    <form class="p-5" method="post">
-                    <div id='form-errors'>{{ form_errors }}</div>
+            <div class="col-md-6 p-5">
+                <div class="row">
+                    <div class="col-6"><h3 class="float-left">Zawartość skrzyni:</h3></div>
+                    <div class="col-6"><a class="float-right btn btn-primary" href={% url 'incase_add' %}>Dodaj nowy element</a></div>
+                </div>
+                {% if Incase %}
+                    <ul class="list-group list-group-flush py-3">
+                    {% for i in Incase %}
+                        <li class="list-group-item"><a href={% url 'incase_edit' object.pk i.pk %} >{{ i.name }}</a></li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Skrzynia jest pusta</p>
+                {% endif %}
+            </div>
+            <div class="col-md-6 p-5">
+                <form class="" method="post">
+                    <h3>Edytuj skrzynię:</h3>
                     {% csrf_token %}
                     <div class="form-row">
                         <div class="form-group col-md-12 mb-0"> {{ form.type|as_crispy_field }}</div>
@@ -19,19 +34,9 @@
                         <div class="form-group col-md-4 mb-0">{{ form.height|as_crispy_field }}</div>
                     </div>
                     {{ form.storage_conditions|as_crispy_field }}
-                    <a class="btn btn-primary" href = "incase/edit">Zmień zawartość skrzyni</a>
+                    <a class="btn btn-primary" href = {% url 'case' %}>Zmień zawartość skrzyni</a>
                     </form>
-            </div>
-            <div class="col-md-6">
-                {% if Incase %}
-                <li>
-                    {% for i in Incase %}
-                        <ul><a href={% url 'incase_edit' object.pk i.pk %} >{{ i.name }}</a></ul>
-                    {% endfor %}
-                </li>
-                {% else %}
-                    <p>Skrzynia jest pusta</p>
-                {% endif %}
+                    <div id='form-errors'>{{ form_errors }}</div>
             </div>
         </div>
     </div>
