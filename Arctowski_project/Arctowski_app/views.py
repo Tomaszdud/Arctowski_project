@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout, password_validation
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.forms import AuthenticationForm, SetPasswordForm
 from jedi.evaluate.context import instance
 from .forms import RegistrationForm,CreateCaseForm, CreateInCaseForm, ResetPass, CaseEditForm, AddPhotoForm
