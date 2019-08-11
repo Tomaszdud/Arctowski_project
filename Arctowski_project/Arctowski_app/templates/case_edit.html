@@ -35,6 +35,7 @@
                     </div>
                     {{ form.storage_conditions|as_crispy_field }}
                     {{ form.capacity|as_crispy_field }}
+                    {{ capacity }}
                     <input type="submit" class="btn btn-primary" value="Zmień zawartość skrzyni"/>
                     </form>
                     <div id='form-errors'>{{ form_errors }}</div>
