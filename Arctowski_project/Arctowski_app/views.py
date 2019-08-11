@@ -159,10 +159,11 @@ class CaseEditView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['Incase'] = InCase.objects.filter(case=self.model.pk)
+        context['Incase'] = InCase.objects.filter(case=self.object.pk)
+        return context
 
-def add_error(param, error):
-    pass
+# def add_error(param, error):
+#     pass
 
 
 class Reset(FormView):
