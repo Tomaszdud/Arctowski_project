@@ -235,4 +235,23 @@ class ReportsCargo(ListView):
 
 
 #class ReportsUC(ListView):
-#class ReportsInsurance(ListView):
+
+class ReportsInsurance(ListView):
+    template_name = 'reports_insurance.html'
+    model = Case
+    context_object_name = 'case'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        cases = super(ReportsInsurance,self).get_context_data()
+        casesy = self.object_list
+        weight = 0
+        capacity = 0
+        sum_of_value= 0
+        for case in casesy:
+            weight+=case.weight
+            capacity+=case.capacity
+            sum_of_value+=case.sum_of_value
+        cases['weight'] = weight/1000
+        cases['capacity'] = capacity
+        cases['sum_of_value'] = sum_of_value
+        return cases

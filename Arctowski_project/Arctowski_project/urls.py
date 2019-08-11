@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from Arctowski_app.views import (RegistrationView, LoginView, LogoutView, CreateCaseView\
                                  , CreateInCaseView, EndCaseView,CaseListView, CaseEditView, EndCasePhoto, Reset,
-                                 HomeView, IncaseEditView, Reports, ReportsCargo) #ReportsUC, ReportsInsurance
+                                 HomeView, IncaseEditView, Reports, ReportsCargo, ReportsInsurance) #ReportsUC
 
 
 urlpatterns = [
@@ -42,9 +42,9 @@ urlpatterns = [
     path('case/edit/<int:pk>/incase/<int:pk_1>', IncaseEditView.as_view(),name='incase_edit'),
     path('case/end/<int:pk>', EndCasePhoto.as_view(), name='end_case'),
     path('reports/', Reports.as_view(), name='reports'),
-    path('reports/cargo', ReportsCargo.as_view(), name='cargo'),
+    path('reports/cargo/', ReportsCargo.as_view(), name='cargo'),
     #path('reports/uc', ReportsUC.as_view(), name='uc' )
-   # path('reports/insurance', ReportsInsurance, name='insurance')
+    path('reports/insurance/', ReportsInsurance.as_view(), name='insurance'),
 
     path('', HomeView.as_view(), name='home')
 
