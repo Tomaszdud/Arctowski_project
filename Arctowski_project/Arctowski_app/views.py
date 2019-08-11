@@ -129,6 +129,8 @@ class EndCaseView(View):
                     form = CreateInCaseForm(request.POST)
                     form.save()
                     case = Case.objects.get(pk=request.POST['case'])
+                    case.sum_of_value = int(request.POST['value'])*int(request.POST['amount'])
+                    case.save()
                     ctx = {"case": case}
                     return redirect('end_case', pk=case.pk)
 
