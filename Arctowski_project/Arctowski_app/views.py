@@ -45,6 +45,7 @@ class LogoutView(RedirectView):
 
 
 class CaseListView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     template_name = 'case.html'
 
     def get_queryset(self):
@@ -53,6 +54,7 @@ class CaseListView(LoginRequiredMixin, ListView):
 
 
 class CreateCaseView(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     model = Case
     form_class = CreateCaseForm
     template_name = 'create_case.html'
@@ -77,6 +79,7 @@ class CreateCaseView(LoginRequiredMixin, CreateView):
 
 
 class CreateInCaseView(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     model = InCase
     form_class = CreateInCaseForm
     template_name = 'create_case_things.html'
@@ -91,6 +94,7 @@ class CreateInCaseView(LoginRequiredMixin, CreateView):
 
 
 class EndCasePhoto(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     model = Photo
     form_class = AddPhotoForm
     template_name = 'case_end.html'
@@ -120,7 +124,7 @@ class EndCasePhoto(LoginRequiredMixin, CreateView):
 
 
 class EndCaseView(LoginRequiredMixin, View):
-
+    login_url = reverse_lazy('login')
     def post(self,request):
         for k,y in request.POST.items():
             if k == 'csrfmiddlewaretoken':
@@ -141,6 +145,7 @@ class EndCaseView(LoginRequiredMixin, View):
 
 
 class CaseEditView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     template_name = 'case_edit.html'
     form_class = CaseEditForm
     model = Case
@@ -166,6 +171,7 @@ class CaseEditView(LoginRequiredMixin, UpdateView):
 
 
 class IncaseEditView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     template_name = 'incase_edit.html'
     form_class = IncaseEditForm
     model = InCase
@@ -180,7 +186,7 @@ class IncaseEditView(LoginRequiredMixin, UpdateView):
 class Reset(FormView):
     form_class = ResetPass
     template_name = 'reset_password.html'
-    success_url = '/home'
+    success_url = '/'
 
     def form_valid(self, form):
         error_messages = {
