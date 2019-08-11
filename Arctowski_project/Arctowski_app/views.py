@@ -7,7 +7,7 @@ from .models import Case,InCase, MyUser, Photo
 from django.contrib.auth.hashers import make_password
 from django.utils.translation import gettext, gettext_lazy as _
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (FormView, CreateView, RedirectView, View, DetailView, ListView, UpdateView, TemplateView)
 
@@ -26,7 +26,7 @@ class RegistrationView(FormView):
 class LoginView(FormView):
     form_class = AuthenticationForm
     template_name = 'login.html'
-    success_url = '/home/'
+    success_url = '/'
 
     def form_valid(self, form):
         username = form.cleaned_data['username']
@@ -191,8 +191,9 @@ class Reset(FormView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class HomeView(TemplateView):
+class HomeView(LoginRequiredMixin, TemplateView):
     template_name = "home.html"
+    login_url = reverse_lazy('login')
 
 
 

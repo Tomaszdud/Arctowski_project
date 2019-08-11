@@ -40,6 +40,6 @@ urlpatterns = [
     path('case/edit/<int:pk>', CaseEditView.as_view(),name='case_edit'),
     path('case/end/<int:pk>', EndCasePhoto.as_view(), name='end_case'),
 
-    path('home/', HomeView.as_view(), name='home')
+    path('', HomeView.as_view(), name='home')
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
