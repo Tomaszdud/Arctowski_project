@@ -13,7 +13,7 @@
                 {% if Incase %}
                     <ul class="list-group list-group-flush py-3">
                     {% for i in Incase %}
-                        <li class="list-group-item"><a href={% url 'incase_edit' object.pk i.pk %} >{{ i.name }}</a></li>
+                        <li class="list-group-item"><a href={% url 'incase_edit' i.pk %} >{{ i.name }}</a></li>
                     {% endfor %}
                     </ul>
                 {% else %}

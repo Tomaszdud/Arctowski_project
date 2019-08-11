@@ -169,17 +169,12 @@ class IncaseEditView(LoginRequiredMixin, UpdateView):
     form_class = IncaseEditForm
     model = InCase
 
-    def get_initial(self):
-        initial = super(IncaseEditView, self).get_initial()
-        initial['case'] = self.object.case
-        return initial
-
     def form_valid(self, form):
         form.save()
         return super(IncaseEditView, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('case_edit', kwargs = {'pk_1': self.kwargs['pk_1']})
+        return reverse_lazy('case_edit', kwargs = {'pk': self.object.case.pk})
 
 class Reset(FormView):
     form_class = ResetPass
