@@ -44,7 +44,7 @@ class LogoutView(RedirectView):
 
 
 class CaseListView(ListView):
-    template_name = 'case_list.html'
+    template_name = 'case.html'
     def get_queryset(self):
         queryset = Case.objects.filter(owner=self.request.user.id)
         return queryset
@@ -178,8 +178,7 @@ class Reset(FormView):
         user.save()
         return super(Reset,self).form_valid(form)
 
-
-
-
+class HomeView(TemplateView):
+    template_name = "home.html"
 
 

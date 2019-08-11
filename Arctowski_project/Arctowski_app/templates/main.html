@@ -12,21 +12,27 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="/home">Arctowski</a>
+            <a class="navbar-brand" href="/home/">Arctowski</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                  <a class="nav-item nav-link active" href="#">Specyfikacja załadunkowa</a>
-                  <a class="nav-item nav-link" href="#">Raporty</a>
-                  <a class="nav-item nav-link" href="#"></a>
+                  <a class="nav-item nav-link " href="/case/">Specyfikacja załadunkowa</a>
+                  <a class="nav-item nav-link" href="/reports/">Raporty</a>
+                  <a class="nav-item nav-link" href="/coverage/">Sprawozdania</a>
                   <a class="nav-item nav-link disabled" href="#">Magazyn</a>
                   <a class="nav-item nav-link disabled" href="#">Baza wiedzy</a>
                   <a class="nav-item nav-link disabled" href="#">Komunikator</a>
                 </div>
             </div>
-        </nav>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
         {% block content %}
         {% endblock %}
