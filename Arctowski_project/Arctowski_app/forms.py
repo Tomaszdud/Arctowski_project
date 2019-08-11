@@ -19,8 +19,8 @@ class CreateCaseForm(forms.ModelForm):
     class Meta:
         model = Case
         fields = '__all__'
-        exclude = ['capacity','sum_of_value']
-        widgets = {'owner_name': forms.HiddenInput(),'owner': forms.HiddenInput()}
+        exclude = ['sum_of_value']
+        widgets = {'owner_name': forms.HiddenInput(),'owner': forms.HiddenInput(),'capacity':forms.HiddenInput()}
 
 
 class CreateInCaseForm(forms.ModelForm):
@@ -67,4 +67,4 @@ class IncaseEditForm(forms.ModelForm):
     class Meta:
         model = InCase
         fields = ['name','value','amount','unit_of_measurement']
-#        widgets = {'case':forms.HiddenInput}
+

@@ -5,7 +5,7 @@
 {% block content %}
 <div class="col-md-6 py-5">
             <form class="p-5" method="post">
-{#                <div id='form-errors'>{{ form_errors }}</div>#}
+               <div id='form-errors'>{{ form_errors }}</div>
                 {% csrf_token %}
                 <div class="form-row">
                     <div class="form-group col-md-6 mb-0"> {{ form.case_id|as_crispy_field }}</div>
@@ -22,7 +22,8 @@
                     <div class="form-group col-md-4 mb-0">{{ form.height|as_crispy_field }}</div>
                 </div>
                 {{ form.storage_conditions|as_crispy_field }}
-                <button type="submit" class="btn btn-primary">Stwórz</button>
+                {{ form.capacity|as_crispy_field }}
+                <input type="submit" class="btn btn-primary" value="Stwórz"/>
             </form>
     </div>
 </div>

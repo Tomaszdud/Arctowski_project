@@ -56,14 +56,15 @@ class CreateCaseView(LoginRequiredMixin, CreateView):
     model = Case
     form_class = CreateCaseForm
     template_name = 'create_case.html'
-    success_url = '/case/add/things'
+    success_url = reverse_lazy('incase_add')
 
     def get_initial(self):
         initial = super(CreateCaseView, self).get_initial()
         if self.request.user.is_authenticated:
             user = self.request.user
             initial.update({'owner_name': user.username,
-                            'owner':user.id})
+                            'owner':user.id,
+                            'capacity':0.00})
         return initial
 
     def form_valid(self, form):
@@ -143,7 +144,7 @@ class CaseEditView(LoginRequiredMixin, UpdateView):
     template_name = 'case_edit.html'
     form_class = CaseEditForm
     model = Case
-    success_url = '/case/list'
+    success_url = '/case'
 
     def get_initial(self):
         initial = super(CaseEditView, self).get_initial()
@@ -168,16 +169,13 @@ class IncaseEditView(LoginRequiredMixin, UpdateView):
     template_name = 'incase_edit.html'
     form_class = IncaseEditForm
     model = InCase
-    success_url = reverse_lazy('case')
-
-    # def get_initial(self):
-    #     initial = super(IncaseEditView, self).get_initial()
-    #     initial['case'] = self.object.case
-    #     return initial
 
     def form_valid(self, form):
         form.save()
         return super(IncaseEditView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('case_edit', kwargs = {'pk': self.object.case.pk})
 
 class Reset(FormView):
     form_class = ResetPass
