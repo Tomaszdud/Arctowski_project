@@ -44,11 +44,13 @@
     </div>
 <script>
 var capacity = document.getElementById('capacity');
-var length = document.forms[0][3].valueAsNumber;
+document.forms[0].addEventListener('onchange', function (x) {
+    console.log('asdasdasd')
+});
 var width = document.forms[0][4].valueAsNumber;
 var height = document.forms[0][5].valueAsNumber;
-if(length && width && height ) {
-	capacity.innerText = parseInt(length) * parseInt(width) * parseInt(height);
+if( length && width && height ) {
+    capacity.innerText = parseInt(length) * parseInt(width) * parseInt(height);
 }
 </script>
 {% endblock %}

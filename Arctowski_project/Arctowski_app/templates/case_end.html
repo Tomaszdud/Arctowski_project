@@ -1,10 +1,49 @@
-{% extends 'main.html' %}
+{#{% extends 'main.html' %}#}
+{#{% block content %}#}
+{#    {{ photo.photo_case.case_id }}<br>#}
+{#    {{ case.owner_name }}#}
+{#    <form method="post" enctype="multipart/form-data">#}
+{#        {% csrf_token %}#}
+{#        {{ form.as_p }}#}
+{#        <input type="submit" value="dodaj">#}
+{#    </form>#}
+{#{% endblock %}#}
+
+{% extends "main.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Formularz{% endblock %}
+
 {% block content %}
-    {{ photo.photo_case.case_id }}<br>
-    {{ case.owner_name }}
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="dodaj">
-    </form>
+
+<div class="py-5">
+    <div class="container bg-light">
+            <div class="row  p-5">
+                <div class="col-md-12 pb-3 border-bottom">
+                        {{ photo.photo_case.case_id }}<br>
+                        {{ case.owner_name }}
+                </div>
+                <div class="col-md-12 pt-3">
+                    <button type="button" class="btn btn-primary">Generuj raport [plik excel]</button>
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="form-row">
+                            <div class="form-group col-md-6 mb-0"> {{ form.image|as_crispy_field }}</div>
+                            <div class="form-group col-md-6 mb-0">{{ form.scan|as_crispy_field }}</div>
+                        </div>
+                        <button type="submit" class="float-right btn btn-success">Dodaj pliki</button>
+                        {% csrf_token %}
+                    </form>
+                </div>
+            </div>
+            <div class="py-3">
+{#                <button type="button" class="btn btn-danger">Generuj raport [plik excel]</button>#}
+            </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col float-right py-3">
+                <a class="btn btn-dark float-right" href={% url 'case' %}>Zakończ tworzenie skrzyni</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
