@@ -2,7 +2,8 @@ from django.contrib.auth import authenticate, login, logout, password_validation
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.forms import AuthenticationForm, SetPasswordForm
 from jedi.evaluate.context import instance
-from .forms import RegistrationForm,CreateCaseForm, CreateInCaseForm, ResetPass, CaseEditForm, AddPhotoForm
+from .forms import (RegistrationForm,CreateCaseForm, CreateInCaseForm, ResetPass, CaseEditForm, AddPhotoForm\
+                    ,IncaseEditForm)
 from .models import Case,InCase, MyUser, Photo
 from django.contrib.auth.hashers import make_password
 from django.utils.translation import gettext, gettext_lazy as _
@@ -162,9 +163,21 @@ class CaseEditView(LoginRequiredMixin, UpdateView):
         context['Incase'] = InCase.objects.filter(case=self.object.pk)
         return context
 
-# def add_error(param, error):
-#     pass
 
+class IncaseEditView(LoginRequiredMixin, UpdateView):
+    template_name = 'incase_edit.html'
+    form_class = IncaseEditForm
+    model = InCase
+    success_url = reverse_lazy('case')
+
+    def get_initial(self):
+        initial = super(IncaseEditView, self).get_initial()
+        initial['case'] = self.object.case
+        return initial
+
+    def form_valid(self, form):
+        form.save()
+        return super(IncaseEditView, self).form_valid(form)
 
 class Reset(FormView):
     form_class = ResetPass
