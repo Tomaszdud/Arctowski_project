@@ -38,6 +38,7 @@ urlpatterns = [
     path('reset/password', Reset.as_view()),
     path('case/', CaseListView.as_view(), name='case'),
     path('case/edit/<int:pk>', CaseEditView.as_view(),name='case_edit'),
+    path('case/edit/<int:pk>/incase/<int:pk>', IncaseEditView.as_view(),name='incase_edit'),
     path('case/end/<int:pk>', EndCasePhoto.as_view(), name='end_case'),
 
     path('', HomeView.as_view(), name='home')

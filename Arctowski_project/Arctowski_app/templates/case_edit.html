@@ -21,9 +21,17 @@
                     {{ form.storage_conditions|as_crispy_field }}
                     <a class="btn btn-primary" href = "incase/edit">Zmień zawartość skrzyni</a>
                     </form>
-        {% for i in Incase %}
-            {{ i.name }}
-        {% endfor %}
+            </div>
+            <div class="col-md-6">
+                {% if Incase %}
+                <li>
+                    {% for i in Incase %}
+                        <ul><a href={% url 'incase_edit' i.pk %} >{{ i.name }}</a></ul>
+                    {% endfor %}
+                </li>
+                {% else %}
+                    <p>Skrzynia jest pusta</p>
+                {% endif %}
             </div>
         </div>
     </div>
