@@ -7,7 +7,7 @@ from .models import Case,InCase, MyUser, Photo
 from django.contrib.auth.hashers import make_password
 from django.utils.translation import gettext, gettext_lazy as _
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy,reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (FormView, CreateView, RedirectView, View, DetailView, ListView, UpdateView, TemplateView)
 
