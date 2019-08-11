@@ -1,0 +1,22 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row p-5">
+    <div class="col-md-6">
+        <a class="btn btn-outline-primary" href=" {% url 'case_add' %}">Dodaj skrzynię</a>
+    </div>
+    <div class="col-md-6">
+        <div class="border-bottom">
+            <h3 >Lista skrzyń</h3>
+        </div>
+    {% if object_list %}
+    {% for case in object_list %}
+        <li class="pt-3"><a href="{% url 'case_edit' case.pk %}">{{ case.case_id }}</a></li>
+    {% endfor %}
+    {% else %}
+        <p class="pt-3">Lista skrzyń jest pusta</p>
+    {% endif %}
+    </div>
+    </div>
+</div>
+{% endblock %}

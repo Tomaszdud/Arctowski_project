@@ -1,12 +1,14 @@
 from django.contrib.auth import authenticate, login, logout, password_validation
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.forms import AuthenticationForm, SetPasswordForm
 from jedi.evaluate.context import instance
 from .forms import RegistrationForm,CreateCaseForm, CreateInCaseForm, ResetPass, CaseEditForm, AddPhotoForm
 from .models import Case,InCase, MyUser, Photo
 from django.contrib.auth.hashers import make_password
 from django.utils.translation import gettext, gettext_lazy as _
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (FormView, CreateView, RedirectView, View, DetailView, ListView, UpdateView, TemplateView)
 
 
@@ -43,13 +45,15 @@ class LogoutView(RedirectView):
         return super(LogoutView, self).get(request, *args, **kwargs)
 
 
-class CaseListView(ListView):
-    template_name = 'case_list.html'
+class CaseListView(LoginRequiredMixin, ListView):
+    template_name = 'case.html'
+
     def get_queryset(self):
         queryset = Case.objects.filter(owner=self.request.user.id)
         return queryset
 
-class CreateCaseView(CreateView):
+
+class CreateCaseView(LoginRequiredMixin, CreateView):
     model = Case
     form_class = CreateCaseForm
     template_name = 'create_case.html'
@@ -72,7 +76,7 @@ class CreateCaseView(CreateView):
         return super().form_valid(form)
 
 
-class CreateInCaseView(CreateView):
+class CreateInCaseView(LoginRequiredMixin, CreateView):
     model = InCase
     form_class = CreateInCaseForm
     template_name = 'create_case_things.html'
@@ -86,7 +90,7 @@ class CreateInCaseView(CreateView):
         return super().form_valid(form)
 
 
-class EndCasePhoto(CreateView):
+class EndCasePhoto(LoginRequiredMixin, CreateView):
     model = Photo
     form_class = AddPhotoForm
     template_name = 'case_end.html'
@@ -114,7 +118,8 @@ class EndCasePhoto(CreateView):
             form.save()
         return super(EndCasePhoto,self).form_valid(form)
 
-class EndCaseView(View):
+
+class EndCaseView(LoginRequiredMixin, View):
 
     def post(self,request):
         for k,y in request.POST.items():
@@ -135,7 +140,7 @@ class EndCaseView(View):
                     return redirect('end_case', pk=case.pk)
 
 
-class CaseEditView(UpdateView):
+class CaseEditView(LoginRequiredMixin, UpdateView):
     template_name = 'case_edit.html'
     form_class = CaseEditForm
     model = Case
@@ -163,6 +168,7 @@ class Reset(FormView):
     form_class = ResetPass
     template_name = 'reset_password.html'
     success_url = '/home'
+
     def form_valid(self, form):
         error_messages = {
             'password_mismatch': _("The two password fields didn't match."),
@@ -180,8 +186,13 @@ class Reset(FormView):
         user.save()
         return super(Reset,self).form_valid(form)
 
+    @user_passes_test(lambda u: u.is_superuser)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
 
+class HomeView(TemplateView):
+    template_name = "home.html"
 
 
 
