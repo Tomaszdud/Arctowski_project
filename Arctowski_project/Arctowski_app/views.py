@@ -157,6 +157,9 @@ class CaseEditView(LoginRequiredMixin, UpdateView):
         case.capacity = length*width*height/1000000
         return super(CaseEditView,self).form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Incase'] = InCase.objects.filter(case=self.model.pk)
 
 def add_error(param, error):
     pass
