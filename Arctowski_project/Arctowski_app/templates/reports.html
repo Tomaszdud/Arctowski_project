@@ -1,0 +1,11 @@
+{% extends "main.html" %}
+
+{% block content %}
+    <form method="get" action="/reports/cargo">
+    <button type="submit">Cargo dla statku</button>
+</form>
+
+<button type="button">Raport dla UC i Instytutu</button>
+<button type="button">Raport dla ubezpieczyciela i przewoźnika</button>
+    {% csrf_token %}
+{% endblock %}

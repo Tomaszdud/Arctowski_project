@@ -57,7 +57,8 @@ def about_case(apps, schema_editor):
         weight="25",
         storage_conditions="ładownia",
         capacity="0.288",
-        sum_of_value="6.800"
+        sum_of_value="6.800",
+        description="Personal things"
     )
 
     Case.objects.create(
@@ -71,7 +72,8 @@ def about_case(apps, schema_editor):
         weight="30",
         storage_conditions="kabina",
         capacity="0.225",
-        sum_of_value="5.000"
+        sum_of_value="5.000",
+        description="Personal things"
     )
 def in_case(apps, schema_editor):
     InCase = apps.get_model('Arctowski_app', 'InCase')

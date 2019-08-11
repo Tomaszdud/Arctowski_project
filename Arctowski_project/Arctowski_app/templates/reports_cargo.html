@@ -1,0 +1,14 @@
+{% extends "main.html" %}
+
+{% block content %}
+<ol>
+{{ weight }}
+{%  for cas in case %}
+    <li>Case id: {{ cas.case_id }},Storage conditions: {{ cas.storage_conditions }},Weight in tons: <span class="tonnes">{{ cas.weight }}</span>, Capacity in m3: {{ cas.capacity }} m3, Measurements: {{ cas.length}},{{cas.width}},{{cas.height }}</li>
+{%  endfor %}
+</ol>
+<script>
+let tonnes = document.getElementsByClassName('tonnes');
+for(elem in tonnes){tonnes[elem].innerText = parseInt(tonnes[elem].innerText)/1000}
+</script>
+{% endblock %}

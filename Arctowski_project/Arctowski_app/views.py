@@ -211,4 +211,26 @@ class HomeView(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy('login')
 
 
+class Reports(TemplateView):
+    template_name = 'reports.html'
 
+
+class ReportsCargo(ListView):
+    template_name = 'reports_cargo.html'
+    model = Case
+    context_object_name = 'case'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        cases = super(ReportsCargo,self).get_context_data()
+        casesy = self.object_list
+        weight = 0
+        for case in casesy:
+            weight+=case.weight
+
+        cases['weight'] = weight/1000
+        return cases
+
+
+
+#class ReportsUC(ListView):
+#class ReportsInsurance(ListView):
