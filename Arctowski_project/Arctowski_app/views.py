@@ -170,10 +170,10 @@ class IncaseEditView(LoginRequiredMixin, UpdateView):
     model = InCase
     success_url = reverse_lazy('case')
 
-    def get_initial(self):
-        initial = super(IncaseEditView, self).get_initial()
-        initial['case'] = self.object.case
-        return initial
+    # def get_initial(self):
+    #     initial = super(IncaseEditView, self).get_initial()
+    #     initial['case'] = self.object.case
+    #     return initial
 
     def form_valid(self, form):
         form.save()

@@ -23,12 +23,10 @@ class CreateCaseForm(forms.ModelForm):
         widgets = {'owner_name': forms.HiddenInput(),'owner': forms.HiddenInput()}
 
 
-
 class CreateInCaseForm(forms.ModelForm):
     class Meta:
         model = InCase
         fields = '__all__'
-
 
 
 class ResetPass(forms.Form):
@@ -68,5 +66,5 @@ class AddPhotoForm(forms.ModelForm):
 class IncaseEditForm(forms.ModelForm):
     class Meta:
         model = InCase
-        fields = ['name','value','amount','unit_of_measurement','case']
-        widgets = {'case':forms.HiddenInput}
+        fields = ['name','value','amount','unit_of_measurement']
+#        widgets = {'case':forms.HiddenInput}
