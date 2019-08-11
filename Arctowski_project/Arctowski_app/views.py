@@ -161,8 +161,9 @@ class CaseEditView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['Incase'] = InCase.objects.filter(case=self.object.pk)
         return context
-def add_error(param, error):
-    pass
+
+# def add_error(param, error):
+#     pass
 
 
 class Reset(FormView):
