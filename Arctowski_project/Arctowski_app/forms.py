@@ -63,3 +63,10 @@ class AddPhotoForm(forms.ModelForm):
         model = Photo
         fields = '__all__'
         widgets = {'photo_case':forms.HiddenInput}
+
+
+class IncaseEditForm(forms.ModelForm):
+    class Meta:
+        model = InCase
+        fields = ['name','value','amount','unit_of_measurement','case']
+        widgets = {'case':forms.HiddenInput}

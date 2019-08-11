@@ -1,0 +1,25 @@
+{% extends 'main.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Edycja elementów w skrzyni{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 py-5">
+                   <form class="p-5" method="post">
+                <div class="form-row">
+                    <div class="form-group col-md-6 mb-0"> {{ form.name|as_crispy_field }}</div>
+                    <div class="form-group col-md-6 mb-0">{{ form.amount|as_crispy_field }}</div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6 mb-0"> {{ form.unit_of_measurement|as_crispy_field }}</div>
+                    <div class="form-group col-md-6 mb-0">{{ form.value|as_crispy_field }}</div>
+                </div>
+                    {{ form.case|as_crispy_field }}
+                <button type="submit" class="btn btn-primary">Edytuj</button>
+                {% csrf_token %}
+            </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
