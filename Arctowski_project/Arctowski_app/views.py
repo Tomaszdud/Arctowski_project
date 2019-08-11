@@ -56,14 +56,15 @@ class CreateCaseView(LoginRequiredMixin, CreateView):
     model = Case
     form_class = CreateCaseForm
     template_name = 'create_case.html'
-    success_url = '/case/add/things'
+    success_url = reverse_lazy('incase_add')
 
     def get_initial(self):
         initial = super(CreateCaseView, self).get_initial()
         if self.request.user.is_authenticated:
             user = self.request.user
             initial.update({'owner_name': user.username,
-                            'owner':user.id})
+                            'owner':user.id,
+                            'capacity':0.00})
         return initial
 
     def form_valid(self, form):
