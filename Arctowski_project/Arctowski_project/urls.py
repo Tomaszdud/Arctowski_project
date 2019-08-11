@@ -20,7 +20,8 @@ from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
 from Arctowski_app.views import (RegistrationView, LoginView, LogoutView, CreateCaseView\
-                                 , CreateInCaseView, EndCaseView,CaseListView, CaseEditView, EndCasePhoto, Reset, HomeView)
+                                 , CreateInCaseView, EndCaseView,CaseListView, CaseEditView, EndCasePhoto, Reset,
+                                 HomeView, IncaseEditView)
 
 
 urlpatterns = [
@@ -38,7 +39,7 @@ urlpatterns = [
     path('reset/password', Reset.as_view()),
     path('case/', CaseListView.as_view(), name='case'),
     path('case/edit/<int:pk>', CaseEditView.as_view(),name='case_edit'),
-    path('case/edit/<int:pk>/incase/<int:pk>', IncaseEditView.as_view(),name='incase_edit'),
+    path('case/edit/<int:pk>/incase/<int:pk_1>', IncaseEditView.as_view(),name='incase_edit'),
     path('case/end/<int:pk>', EndCasePhoto.as_view(), name='end_case'),
 
     path('', HomeView.as_view(), name='home')

@@ -26,7 +26,7 @@
                 {% if Incase %}
                 <li>
                     {% for i in Incase %}
-                        <ul><a href={% url 'incase_edit' i.pk %} >{{ i.name }}</a></ul>
+                        <ul><a href={% url 'incase_edit' object.pk i.pk %} >{{ i.name }}</a></ul>
                     {% endfor %}
                 </li>
                 {% else %}
