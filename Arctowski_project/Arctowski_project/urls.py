@@ -24,27 +24,29 @@ from Arctowski_app.views import (RegistrationView, LoginView, LogoutView, Create
                                  HomeView, IncaseEditView, Reports, ReportsCargo, ReportsInsurance) #ReportsUC
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('registration/', RegistrationView.as_view()),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('case/add/', CreateCaseView.as_view(), name='case_add'),
-    path('case/add/things/', CreateInCaseView.as_view()),
+    path('case/add/things/', CreateInCaseView.as_view(), name="incase_add"),
     path('case/end', EndCaseView.as_view()),
     path('admin/password_reset/',auth_views.PasswordResetView.as_view(),name='admin_password_reset'),
     path('admin/password_reset/done/',auth_views.PasswordResetDoneView.as_view(),name='password_reset_done'),
     path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(),name='password_reset_confirm'),
     path('reset/done/',auth_views.PasswordResetCompleteView.as_view(),name='password_reset_complete'),
-    path('reset/password', Reset.as_view()),
+    path('reset/password/', Reset.as_view()),
     path('case/', CaseListView.as_view(), name='case'),
-    path('case/edit/<int:pk>', CaseEditView.as_view(),name='case_edit'),
-    path('case/edit/<int:pk>/incase/<int:pk_1>', IncaseEditView.as_view(),name='incase_edit'),
-    path('case/end/<int:pk>', EndCasePhoto.as_view(), name='end_case'),
+    path('case/edit/<int:pk>/', CaseEditView.as_view(),name='case_edit'),
+    path('incase/edit/<int:pk>/', IncaseEditView.as_view(),name='incase_edit'),
+    path('case/end/<int:pk>/', EndCasePhoto.as_view(), name='end_case'),
     path('reports/', Reports.as_view(), name='reports'),
     path('reports/cargo/', ReportsCargo.as_view(), name='cargo'),
     #path('reports/uc', ReportsUC.as_view(), name='uc' )
     path('reports/insurance/', ReportsInsurance.as_view(), name='insurance'),
+
 
     path('', HomeView.as_view(), name='home')
 

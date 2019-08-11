@@ -45,6 +45,7 @@ class LogoutView(RedirectView):
 
 
 class CaseListView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     template_name = 'case.html'
 
     def get_queryset(self):
@@ -53,17 +54,19 @@ class CaseListView(LoginRequiredMixin, ListView):
 
 
 class CreateCaseView(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     model = Case
     form_class = CreateCaseForm
     template_name = 'create_case.html'
-    success_url = '/case/add/things'
+    success_url = reverse_lazy('incase_add')
 
     def get_initial(self):
         initial = super(CreateCaseView, self).get_initial()
         if self.request.user.is_authenticated:
             user = self.request.user
             initial.update({'owner_name': user.username,
-                            'owner':user.id})
+                            'owner':user.id,
+                            'capacity':0.00})
         return initial
 
     def form_valid(self, form):
@@ -76,6 +79,7 @@ class CreateCaseView(LoginRequiredMixin, CreateView):
 
 
 class CreateInCaseView(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     model = InCase
     form_class = CreateInCaseForm
     template_name = 'create_case_things.html'
@@ -90,6 +94,7 @@ class CreateInCaseView(LoginRequiredMixin, CreateView):
 
 
 class EndCasePhoto(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     model = Photo
     form_class = AddPhotoForm
     template_name = 'case_end.html'
@@ -119,7 +124,7 @@ class EndCasePhoto(LoginRequiredMixin, CreateView):
 
 
 class EndCaseView(LoginRequiredMixin, View):
-
+    login_url = reverse_lazy('login')
     def post(self,request):
         for k,y in request.POST.items():
             if k == 'csrfmiddlewaretoken':
@@ -140,10 +145,11 @@ class EndCaseView(LoginRequiredMixin, View):
 
 
 class CaseEditView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     template_name = 'case_edit.html'
     form_class = CaseEditForm
     model = Case
-    success_url = '/case/list'
+    success_url = '/case'
 
     def get_initial(self):
         initial = super(CaseEditView, self).get_initial()
@@ -165,24 +171,22 @@ class CaseEditView(LoginRequiredMixin, UpdateView):
 
 
 class IncaseEditView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     template_name = 'incase_edit.html'
     form_class = IncaseEditForm
     model = InCase
-    success_url = reverse_lazy('case')
-
-    def get_initial(self):
-        initial = super(IncaseEditView, self).get_initial()
-        initial['case'] = self.object.case
-        return initial
 
     def form_valid(self, form):
         form.save()
         return super(IncaseEditView, self).form_valid(form)
 
+    def get_success_url(self):
+        return reverse_lazy('case_edit', kwargs = {'pk': self.object.case.pk})
+
 class Reset(FormView):
     form_class = ResetPass
     template_name = 'reset_password.html'
-    success_url = '/home'
+    success_url = '/'
 
     def form_valid(self, form):
         error_messages = {
