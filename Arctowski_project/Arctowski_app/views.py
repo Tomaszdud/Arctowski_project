@@ -224,10 +224,12 @@ class ReportsCargo(ListView):
         cases = super(ReportsCargo,self).get_context_data()
         casesy = self.object_list
         weight = 0
+        capacity = 0
         for case in casesy:
             weight+=case.weight
-
+            capacity+=case.capacity
         cases['weight'] = weight/1000
+        cases['capacity'] = capacity
         return cases
 
 
