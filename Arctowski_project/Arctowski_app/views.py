@@ -12,8 +12,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (FormView, CreateView, RedirectView, View, DetailView, ListView, UpdateView, TemplateView)
 
 
-
-
 class RegistrationView(FormView):
     form_class = RegistrationForm
     template_name = 'registration.html'
@@ -26,7 +24,7 @@ class RegistrationView(FormView):
 class LoginView(FormView):
     form_class = AuthenticationForm
     template_name = 'login.html'
-    success_url = '/home/'
+    success_url = '/'
 
     def form_valid(self, form):
         username = form.cleaned_data['username']
@@ -134,7 +132,7 @@ class EndCaseView(LoginRequiredMixin, View):
                     form = CreateInCaseForm(request.POST)
                     form.save()
                     case = Case.objects.get(pk=request.POST['case'])
-                    case.sum_of_value = int(request.POST['value'])*int(request.POST['amount'])
+                    case.sum_of_value = float(request.POST['value'])*float(request.POST['amount'])
                     case.save()
                     ctx = {"case": case}
                     return redirect('end_case', pk=case.pk)
@@ -191,8 +189,9 @@ class Reset(FormView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class HomeView(TemplateView):
+class HomeView(LoginRequiredMixin, TemplateView):
     template_name = "home.html"
+    login_url = reverse_lazy('login')
 
 
 
