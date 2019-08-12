@@ -118,7 +118,6 @@ class EndCasePhoto(LoginRequiredMixin, CreateView):
         if form.cleaned_data['image'] is None and form.cleaned_data['scan'] is None:
             return redirect(self.get_success_url())
         else:
-            print('lala')
             form.save()
         return super(EndCasePhoto,self).form_valid(form)
 
@@ -178,7 +177,13 @@ class IncaseEditView(LoginRequiredMixin, UpdateView):
     model = InCase
 
     def form_valid(self, form):
-        form.save()
+        incase = form.save()
+        all_incase = InCase.objects.filter(case=self.object.case.pk)
+        all_sum = 0
+        for sum in all_incase:
+            all_sum += sum.value*sum.amount
+        incase.case.sum_of_value = all_sum
+        incase.case.save()
         return super(IncaseEditView, self).form_valid(form)
 
     def get_success_url(self):
