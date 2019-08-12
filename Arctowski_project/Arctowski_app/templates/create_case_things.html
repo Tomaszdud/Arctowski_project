@@ -17,7 +17,7 @@
                 </div>
                 {{ form.case|as_crispy_field }}
                 <button type="submit" class="btn btn-primary">Dodaj</button>
-              <button type="submit" formaction="/case/end">Zakończ skrzynie</button>
+                <button type="submit" class="float-right btn btn-success" formaction="/case/end">Zakończ skrzynie</button>
                 {% csrf_token %}
             </form>
     </div>

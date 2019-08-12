@@ -45,6 +45,7 @@ class LogoutView(RedirectView):
 
 
 class CaseListView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     template_name = 'case.html'
 
     def get_queryset(self):
@@ -53,6 +54,7 @@ class CaseListView(LoginRequiredMixin, ListView):
 
 
 class CreateCaseView(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     model = Case
     form_class = CreateCaseForm
     template_name = 'create_case.html'
@@ -77,6 +79,7 @@ class CreateCaseView(LoginRequiredMixin, CreateView):
 
 
 class CreateInCaseView(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     model = InCase
     form_class = CreateInCaseForm
     template_name = 'create_case_things.html'
@@ -91,6 +94,7 @@ class CreateInCaseView(LoginRequiredMixin, CreateView):
 
 
 class EndCasePhoto(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login')
     model = Photo
     form_class = AddPhotoForm
     template_name = 'case_end.html'
@@ -120,7 +124,7 @@ class EndCasePhoto(LoginRequiredMixin, CreateView):
 
 
 class EndCaseView(LoginRequiredMixin, View):
-
+    login_url = reverse_lazy('login')
     def post(self,request):
         for k,y in request.POST.items():
             if k == 'csrfmiddlewaretoken':
@@ -141,6 +145,7 @@ class EndCaseView(LoginRequiredMixin, View):
 
 
 class CaseEditView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     template_name = 'case_edit.html'
     form_class = CaseEditForm
     model = Case
@@ -167,6 +172,7 @@ class CaseEditView(LoginRequiredMixin, UpdateView):
 
 
 class IncaseEditView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     template_name = 'incase_edit.html'
     form_class = IncaseEditForm
     model = InCase
@@ -181,7 +187,7 @@ class IncaseEditView(LoginRequiredMixin, UpdateView):
 class Reset(FormView):
     form_class = ResetPass
     template_name = 'reset_password.html'
-    success_url = '/home'
+    success_url = '/'
 
     def form_valid(self, form):
         error_messages = {
@@ -210,4 +216,47 @@ class HomeView(LoginRequiredMixin, TemplateView):
     login_url = reverse_lazy('login')
 
 
+class Reports(TemplateView):
+    template_name = 'reports.html'
 
+
+class ReportsCargo(ListView):
+    template_name = 'reports_cargo.html'
+    model = Case
+    context_object_name = 'case'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        cases = super(ReportsCargo,self).get_context_data()
+        casesy = self.object_list
+        weight = 0
+        capacity = 0
+        for case in casesy:
+            weight+=case.weight
+            capacity+=case.capacity
+        cases['weight'] = weight/1000
+        cases['capacity'] = capacity
+        return cases
+
+
+
+#class ReportsUC(ListView):
+
+class ReportsInsurance(ListView):
+    template_name = 'reports_insurance.html'
+    model = Case
+    context_object_name = 'case'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        cases = super(ReportsInsurance,self).get_context_data()
+        casesy = self.object_list
+        weight = 0
+        capacity = 0
+        sum_of_value= 0
+        for case in casesy:
+            weight+=case.weight
+            capacity+=case.capacity
+            sum_of_value+=case.sum_of_value
+        cases['weight'] = weight/1000
+        cases['capacity'] = capacity
+        cases['sum_of_value'] = sum_of_value
+        return cases
