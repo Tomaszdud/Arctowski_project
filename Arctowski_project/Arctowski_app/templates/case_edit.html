@@ -8,7 +8,7 @@
             <div class="col-md-6 p-5">
                 <div class="row">
                     <div class="col-6"><h3 class="float-left">Zawartość skrzyni:</h3></div>
-                    <div class="col-6"><a class="float-right btn btn-primary" href={% url 'incase_add' %}>Dodaj nowy element</a></div>
+                    <div class="col-6"><a class="float-right btn btn-primary" href={% url 'incase_add' case.pk %}>Dodaj zawartość</a></div>
                 </div>
                 {% if Incase %}
                     <ul class="list-group list-group-flush py-3">
