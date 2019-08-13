@@ -27,6 +27,7 @@ class CreateInCaseForm(forms.ModelForm):
     class Meta:
         model = InCase
         fields = '__all__'
+        widgets = {'case':forms.HiddenInput()}
 
 
 class ResetPass(forms.Form):

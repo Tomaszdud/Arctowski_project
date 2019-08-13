@@ -21,6 +21,10 @@
                 <div class="col-md-12 pb-3 border-bottom">
                     <h4> ID Skrzyni: </h4> <h5>{{ case.case_id }}</h5>
                     <h4>Właściciel: </h4><h5>{{ case.owner_name }}</h5>
+                    <h4>Zawartość skrzyni: </h4>
+                    {%for thing in incase%}
+                        <li>{{thing.name}}</li>
+                    {%endfor%}
                 </div>
                 <div class="col-md-12 pt-3">
                     <button type="button" class="btn btn-primary">Generuj raport [plik excel]</button>

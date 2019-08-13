@@ -58,7 +58,6 @@ class CreateCaseView(LoginRequiredMixin, CreateView):
     model = Case
     form_class = CreateCaseForm
     template_name = 'create_case.html'
-    success_url = reverse_lazy('incase_add')
 
     def get_initial(self):
         initial = super(CreateCaseView, self).get_initial()
@@ -77,13 +76,20 @@ class CreateCaseView(LoginRequiredMixin, CreateView):
         case.capacity = length*width*height
         return super().form_valid(form)
 
+    def get_success_url(self):
+        return reverse_lazy('incase_add', kwargs= {'pk':self.object.pk})
+
 
 class CreateInCaseView(LoginRequiredMixin, CreateView):
     login_url = reverse_lazy('login')
     model = InCase
     form_class = CreateInCaseForm
     template_name = 'create_case_things.html'
-    success_url = '/case/add/things'
+
+    def get_initial(self):
+        initial = super(CreateInCaseView,self).get_initial()
+        initial.update({'case':self.kwargs['pk']})
+        return initial
 
     def form_valid(self, form):
         incase = form.save()
@@ -91,6 +97,10 @@ class CreateInCaseView(LoginRequiredMixin, CreateView):
         incase.case.sum_of_value += sum_of_val_thing
         incase.case.save()
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('incase_add', kwargs= {'pk':self.kwargs['pk']})
+
 
 
 class EndCasePhoto(LoginRequiredMixin, CreateView):
@@ -112,6 +122,7 @@ class EndCasePhoto(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         obj = Case.objects.filter(owner=self.request.user.id).order_by('-pk')[0]
         context['case'] = obj
+        context['incase'] = InCase.objects.filter(case=obj.pk)
         return context
 
     def form_valid(self, form):
@@ -265,3 +276,4 @@ class ReportsInsurance(ListView):
         cases['capacity'] = capacity
         cases['sum_of_value'] = sum_of_value
         return cases
+
