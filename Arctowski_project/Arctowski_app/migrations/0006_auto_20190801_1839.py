@@ -177,6 +177,63 @@ def in_section(apps, schema_editor):
         raport = Raport.objects.get(pk=1)
         )
 
+    Sekcja.objects.create(
+        tytul="Ogólne",
+        tekst_poczatek = "nie wiem co tu",
+        tekst_koniec = "nie wiem co tu",
+        sekcjaNadzedna = Sekcja.objects.get(tytul="Sprawozdanie techniczne"),
+        raport = Raport.objects.get(pk=1)
+        )
+
+    Sekcja.objects.create(
+        tytul="Monitoringi",
+        tekst_poczatek = "nie wiem co tu",
+        tekst_koniec = "nie wiem co tu",
+        raport = Raport.objects.get(pk=1)
+        )
+
+    Sekcja.objects.create(
+        tytul="Monitoring biologiczny",
+        tekst_poczatek = "nie wiem co tu",
+        tekst_koniec = "nie wiem co tu",
+        raport = Raport.objects.get(pk=1)
+        )
+
+    Sekcja.objects.create(
+        tytul="Monitoring meteorologiczny",
+        tekst_poczatek = "nie wiem co tu",
+        tekst_koniec = "nie wiem co tu",
+        raport = Raport.objects.get(pk=1)
+        )
+
+    Sekcja.objects.create(
+        tytul="Monitoring hydrochemiczny",
+        tekst_poczatek = "nie wiem co tu",
+        tekst_koniec = "nie wiem co tu",
+        raport = Raport.objects.get(pk=1)
+        )
+
+    Sekcja.objects.create(
+        tytul="Medyczny",
+        tekst_poczatek = "nie wiem co tu",
+        tekst_koniec = "nie wiem co tu",
+        raport = Raport.objects.get(pk=1)
+        )
+
+    Sekcja.objects.create(
+        tytul="Ogólny stan zdrowia",
+        tekst_poczatek = "nie wiem co tu",
+        tekst_koniec = "nie wiem co tu",
+        raport = Raport.objects.get(pk=1)
+        )
+
+    Sekcja.objects.create(
+        tytul="Wykaz przypadków nagłych",
+        tekst_poczatek = "nie wiem co tu",
+        tekst_koniec = "nie wiem co tu",
+        raport = Raport.objects.get(pk=1)
+        )
+
 def create_wpis(apps, schema_editor):
     Wpis = apps.get_model('Arctowski_app','Wpis')
     Sekcja = apps.get_model('Arctowski_app', 'Sekcja')
@@ -186,6 +243,15 @@ def create_wpis(apps, schema_editor):
     sekcja = Sekcja.objects.get(tytul="Park maszynowy")
     )
 
+    Wpis.objects.create(
+    tytul = "Naprawa suwnicy w hali zodiaków",
+    sekcja = Sekcja.objects.get(tytul="Ogólne")
+    )
+
+    Wpis.objects.create(
+    tytul = "Instalacja nowego oświetlenia",
+    sekcja = Sekcja.objects.get(tytul="Ogólne")
+    )
 
 class Migration(migrations.Migration):
 
